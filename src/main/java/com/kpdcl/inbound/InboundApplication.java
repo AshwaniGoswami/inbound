@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class InboundApplication {
 
 	public static void main(String[] args) {
+		
 		SpringApplication.run(InboundApplication.class, args);
 	}
 
