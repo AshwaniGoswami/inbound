@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.RestController;
+@RestController
 public class service {
 	   @PostMapping("/api/data")
 	    public ResponseEntity<Map<String, Object>> createData(@RequestBody Map<String, Object> jsonData) {
@@ -19,4 +20,11 @@ public class service {
 	            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 	        }
 	    }
+	   
+	 
+		
 }
+
+
+
+
