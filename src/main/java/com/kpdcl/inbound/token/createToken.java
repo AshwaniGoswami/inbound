@@ -41,7 +41,8 @@ public class createToken {
 
     private static final long EXPIRATION_TIME_MS = 3600000; // 1 hour
 
-    public String generateToken(Map<String, Object> jsonData) {
+    @SuppressWarnings("deprecation")
+	public String generateToken(Map<String, Object> jsonData) {
         // Create JWT token using the JSON data
         String token = Jwts.builder()
                 .setClaims(jsonData)
@@ -49,5 +50,6 @@ public class createToken {
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME_MS))
                 .compact();
         return token;
+ 
     }
 }
