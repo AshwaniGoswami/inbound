@@ -145,7 +145,6 @@ public class service {
 //        }
 //    }
 }}
-=======
     private final createToken createtoken;
 
     @Autowired
