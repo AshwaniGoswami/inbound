@@ -42,12 +42,12 @@
 package com.kpdcl.inbound.token;
 
 
-import org.springframework.stereotype.Service;
+//import org.springframework.stereotype.Service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 
