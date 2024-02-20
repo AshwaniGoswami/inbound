@@ -47,15 +47,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 
 @Component
-=======
-@Service
->>>>>>> 362428b218da9a90627956b9ac23fd4b9d59a7aa
 public class createToken {
 
     // Method to generate token based on JSON data
