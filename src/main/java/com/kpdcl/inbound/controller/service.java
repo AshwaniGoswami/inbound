@@ -61,6 +61,7 @@
 
 package com.kpdcl.inbound.controller;
 
+import java.util.List;
 //import java.util.ArrayList;
 //import java.util.List;
 import java.util.Map;
@@ -72,16 +73,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kpdcl.inbound.service.EmailService;
 //import com.kpdcl.inbound.service.EmailService;
 import com.kpdcl.inbound.token.createToken;
 
 @RestController
 public class service {
     private final createToken createtoken;
+    private final EmailService emailService;
     
-    @Autowired
-    public service(createToken createtoken) {
+//    @Autowired
+    public service(createToken createtoken, EmailService emailService) {
         this.createtoken = createtoken;
+        this.emailService = emailService;
     }
     
     @PostMapping("/api/data")
@@ -90,12 +94,30 @@ public class service {
             // Generate token using TokenService
             String token = createtoken.generateToken(jsonData);
             System.out.println(token);
+                            
             // Create a response object including the token and any other necessary data
             ResponseObject responseObject = new ResponseObject();
             responseObject.setToken(token);
             responseObject.setData(jsonData); // Assuming you want to return the JSON data as well
+                      
+	            // Send email(s)
+	            String emailSubject = "Your Subject Here";
+	            String emailBody = "Your Email Body Here";
+	    
+	            // Assuming jsonData contains a list of emails under key "emails"
+	            if (jsonData.containsKey("emails") && jsonData.get("emails") instanceof List<?>) {
+	                @SuppressWarnings("unchecked")
+					List<String> recipientEmails = (List<String>) jsonData.get("emails");
+	                emailService.sendBulkEmail(recipientEmails, emailSubject, emailBody);
+	            } else {
+	                // If a single email address is provided
+	                if (jsonData.containsKey("email") && jsonData.get("email") instanceof String) {
+	                    String recipientEmail = (String) jsonData.get("email");
+	                    emailService.sendEmail(recipientEmail, emailSubject, emailBody);
+	                }
+	            }
     
-            // Return the response with HTTP status 201 (CREATED)
+                // Return the response with HTTP status 201 (CREATED)
             return new ResponseEntity<>(responseObject, HttpStatus.CREATED);
         } catch (Exception e) {
             // If there is an error, return an appropriate HTTP status code
