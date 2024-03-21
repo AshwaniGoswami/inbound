@@ -683,7 +683,7 @@ public class service {
             existingHierarchy.setEE_status(newHierarchy.isEE_status());
         }
         // Update STD_URL and STD_status if provided
-        if (newHierarchy.getSTD_URL() != null || newHierarchy.isSTD_status()) {
+        if (newHierarchy.getSTD_URL() != null && newHierarchy.isSTD_status()) {
             existingHierarchy.setSTD_URL(newHierarchy.getSTD_URL());
             existingHierarchy.setSTD_status(newHierarchy.isSTD_status());
         }

@@ -2,17 +2,22 @@ package com.kpdcl.inbound.entity;
 
 
 
+import java.util.UUID;
+
 import javax.persistence.*;
 
+//import jakarta.persistence.GeneratedValue;
+//import jakarta.persistence.GenerationType;
+//import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Table(name = "data_hierarchy",uniqueConstraints = {@UniqueConstraint(columnNames = {"Division_code", "STD_code"})})
 public class dataHierarchy {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(generator = "UUID") 
+	private UUID user_id;
     
     @Getter @Setter
     private String Wing_name;
