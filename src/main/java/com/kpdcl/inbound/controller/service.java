@@ -92,12 +92,7 @@ import com.kpdcl.inbound.repository.approvalHierarchyRepository;
 import com.kpdcl.inbound.repository.approvalRepository;
 import com.kpdcl.inbound.repository.dataRepository;
 import com.kpdcl.inbound.repository.hierarchyRepository;
-//import com.kpdcl.inbound.repository.divisionEmailRepository;
 
-//import com.kpdcl.inbound.service.EmailService;
-//import com.kpdcl.inbound.service.EmailService;
-//import com.kpdcl.inbound.token.createToken;
-//import com.kpdcl.inbound.service.EmailService;
 
 
 
@@ -120,6 +115,11 @@ public class service {
     private approvalRepository approvalRepo;
     @Autowired
     private dataRepository dataRepo;
+    
+//    @Autowired
+//    public service(YourService yourService) {
+//        this.yourService = yourService;
+//    }
 //    @Autowired
 //    public service(createToken createtoken, EmailService emailService) {
 //        this.createtoken = createtoken;
@@ -439,13 +439,13 @@ public class service {
             String wingCode = office.substring(0, 2);
             String circleCode = office.substring(2, 4);
             String divisionCode = office.substring(4, 6);
-//            System.out.println(circleCode);
-//            System.out.println(divisionCode);
+            System.out.println(circleCode);
+            System.out.println(divisionCode);
             // Check if circle code and division code are valid
             boolean circleCodeExists = circleCodeExists(circleCode);
             boolean divisionCodeExists = divisionCodeExists(divisionCode);
-//            System.out.println(circleCodeExists);
-//            System.out.println(divisionCodeExists);
+            System.out.println(circleCodeExists);
+            System.out.println(divisionCodeExists);
             if (!circleCodeExists) {
                 // Return a bad request response if either circle code or division code is invalid
                 return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body("Invalid circle code");
@@ -474,7 +474,7 @@ public class service {
 //                stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
 //                System.out.println(stdEmail);
                 // Fetch division email
-//            	System.out.println("i am here");
+            	System.out.println("i am here");
 //                divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
                 sendEmail(stdEmail, "Approval Request", "Approval request for case ID: " , jsonData);
                 //

@@ -3,9 +3,11 @@ package com.kpdcl.inbound;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
+@Import(config.class) 
 @EntityScan("com.kpdcl.inbound.entity")
 @EnableJpaRepositories("com.kpdcl.inbound.repository")
 public class InboundApplication {
