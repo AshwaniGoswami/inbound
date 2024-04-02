@@ -65,6 +65,7 @@ package com.kpdcl.inbound.controller;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //import java.util.Optional;
@@ -74,6 +75,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 //import org.springframework.http.ResponseEntity;
@@ -540,6 +542,17 @@ public class service {
             return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Internal Server Error");
         }
     }
+
+	@GetMapping("/view_hierarchy")
+	public ResponseEntity<?> getAllData() {
+	    try {
+	        List<hierarchy> hierarchyList = hierarchyRepo.findAll();
+	        return ResponseEntity.ok().body(hierarchyList);
+	    } catch (Exception e) {
+	        // If there is an error, return an appropriate HTTP status code
+	        return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Internal Server Error");
+	    }
+	}
 
 
 
