@@ -53,6 +53,10 @@ public class dataHierarchy {
     @Getter @Setter
     private String STD_email;
    
+    @Getter @Setter
+    private String MD_email;
+    @Getter @Setter
+    private String JKPTCL_email;
 //    @Getter @Setter
 //    @ManyToOne
 //    @JoinColumn(name = "officeCode", referencedColumnName = "officeCode")

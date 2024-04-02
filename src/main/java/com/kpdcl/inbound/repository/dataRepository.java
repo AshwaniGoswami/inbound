@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kpdcl.inbound.entity.dataHierarchy;
 
 @Repository
-public interface dataRepository extends JpaRepository<dataHierarchy, UUID> {
+public interface dataRepository extends JpaRepository<dataHierarchy, Long> {
 
     @Query("SELECT CASE WHEN COUNT(d) > 0 THEN true ELSE false END FROM dataHierarchy d WHERE d.Division_code = :divisionCode")
     boolean existsByDivision_code(String divisionCode);

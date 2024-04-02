@@ -16,18 +16,18 @@ public class config {
 	    mailSender.setUsername("ocid1.user.oc1..aaaaaaaantklqvhd7joiij5vi6jcg33vp6qvdketsba2vdfeo5jndvnk6qva@ocid1.tenancy.oc1..aaaaaaaaypjf3k32nhvubi4h7dzplwdsxdwys5sq7ygfjjx36wqbphpeagwa.vi.com");
 	    mailSender.setPassword("!!pE8JqDrpd8qEypNj4y");
 	    	  
-//	    mailSender.setUsername("warneo790@gmail.com");
-//	    mailSender.setPassword("wzknazfslnmuefpo");
+
 	    Properties props = mailSender.getJavaMailProperties();
 	    props.put("mail.transport.protocol", "smtp");
 	    props.put("mail.debug", "true");
 	    props.put("mail.smtp.auth", "true");
+	   // props.put("mail.smtp.ssl.enable", "true");
 	    props.put("mail.smtp.starttls.enable", "true"); // Ensure TLS is enabled
         props.put("mail.smtp.from", "bill@kpdcl.in"); // Set the "from" address
-//	    props.put("mail.smtp.user", "noreply@ks-tech.in");
-//        props.put("mail.smtp.password", "noreplykspl@123");
-	    props.put("mail.smtp.ssl.enable", "true");
-	    
+        props.put("mail.smtp.ssl.enable", "false");
+     //   props.put("mail.smtp.starttls.enable", "true");
+
+	 
 	    return mailSender;
 	
 }

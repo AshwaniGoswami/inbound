@@ -96,25 +96,6 @@ import com.kpdcl.inbound.repository.hierarchyRepository;
 
 
 
-@RestController
-public class service {
-    //private final createToken createtoken;
-   // private final EmailService emailService;
-    
-    @Autowired
-    private hierarchyRepository hierarchyRepo;
-    
-    @Autowired
-    private approvalHierarchyRepository approvalHierarchyRepo;
-    
-    @Autowired
-    private JavaMailSender emailSender;
-//    @Autowired
-//    private divisionEmailRepository divisionEmailRepo;
-    @Autowired
-    private approvalRepository approvalRepo;
-    @Autowired
-    private dataRepository dataRepo;
     
 //    @Autowired
 //    public service(YourService yourService) {
@@ -416,7 +397,28 @@ public class service {
 //    }
     
     
-    @PostMapping("/api/hierarchy")
+@RestController
+public class service {
+	//private final createToken createtoken;
+	// private final EmailService emailService;
+	
+	@Autowired
+	private hierarchyRepository hierarchyRepo;
+	
+	@Autowired
+	private approvalHierarchyRepository approvalHierarchyRepo;
+	
+	@Autowired
+	private JavaMailSender emailSender;
+	
+//    @Autowired
+//    private divisionEmailRepository divisionEmailRepo;
+	@Autowired
+	private approvalRepository approvalRepo;
+	@Autowired
+	private dataRepository dataRepo;
+    
+	@PostMapping("/api/hierarchy")
     public ResponseEntity<?> createData(@RequestBody hierarchy jsonData) {
         try {
             // Extracting necessary information from jsonData
@@ -428,13 +430,7 @@ public class service {
             String applicant = jsonData.getName_of_applicant();
             String division = jsonData.getDivision();
             String office = jsonData.getOfficeCode();
-//            System.out.println(caseId);
-//            System.out.println(category);
-//            System.out.println(sanctionedLoad);
-//            System.out.println(description);
-//            System.out.println(applicant);
-//            System.out.println(division);
-//            System.out.println(office);
+           
             // Extracting the first two digits and the next two digits from the office code
             String wingCode = office.substring(0, 2);
             String circleCode = office.substring(2, 4);
@@ -459,25 +455,20 @@ public class service {
             String divisionEmail = "";
             String circleEmail="";
             String wingEmail="";
-            stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
-            divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
-            circleEmail=dataRepo.findcircleEmailBycircleCode(circleCode);
-            wingEmail=dataRepo.findwingEmailBywingCode(wingCode);
-            System.out.println(stdEmail);
-            System.out.println(divisionEmail);
-            System.out.println(circleEmail);
-            System.out.println(wingEmail);
-//            System.out.println(stdEmail);
-//            System.out.println(divisionEmail);
+            System.out.println("i an here");
+
             if (sanctionedLoad >= 25.0 && sanctionedLoad <= 50.0) {
                 // Fetch STD email
+            	   stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
+                   divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
+
 //                stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
 //                System.out.println(stdEmail);
                 // Fetch division email
             	System.out.println("i am here");
 //                divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
                 sendEmail(stdEmail, "Approval Request", "Approval request for case ID: " , jsonData);
-                //
+                
 //                                // Send email to EE (mandatory)
                 sendEmail(divisionEmail, "Approval Request", "Approval request for case ID: " , jsonData);
                                 //hierarchy savedHierarchy = hierarchyRepo.save(jsonData);
@@ -489,7 +480,9 @@ public class service {
             else if (sanctionedLoad > 50.0 && sanctionedLoad <= 100.0) {
                 // Fetch STD email
 //            	System.out.println("i am here");
-
+            	 stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
+                 divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
+                 circleEmail=dataRepo.findcircleEmailBycircleCode(circleCode);
 //            	stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
 //            	divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
 //                circleEmail=dataRepo.findcircleEmailByCircleCode(circleCode);
@@ -509,6 +502,10 @@ public class service {
             }
             else if (sanctionedLoad > 100.0 && sanctionedLoad <= 500.0) {
                 // Fetch STD email
+                stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
+                divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
+                //circleEmail=dataRepo.findcircleEmailBycircleCode(circleCode);
+                wingEmail=dataRepo.findwingEmailBywingCode(wingCode);
 //            	divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
 //                stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
 //                circleEmail=dataRepo.findcircleEmailByCircleCode(circleCode);
@@ -544,36 +541,6 @@ public class service {
         }
     }
 
-    // Method to check if circle code exists
-    private boolean circleCodeExists(String circle_code) {
-        return dataRepo.existsBycircle_code(circle_code);
-    }
-
-    // Method to check if division code exists
-    private boolean divisionCodeExists(String division_code) {
-        return dataRepo.existsByDivision_code(division_code);
-    }
-    private double extractNumericValue(String str) {
-        String numericPart = str.replaceAll("[^\\d.]", "");
-        return Double.parseDouble(numericPart);
-    }
- // Method to send email
-    private void sendEmail(String to, String subject,String text,  hierarchy jsonData) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        
-        // Include specific user data in the email body
-        String emailBody =text+  "\n";
-        emailBody += "Case ID: " + jsonData.getCase_id() + "\n";
-        emailBody += "Name of Applicant: " + jsonData.getName_of_applicant() + "\n";
-        emailBody += "Sanctioned Load: " + jsonData.getSanctioned_load() + "\n";
-        emailBody += "Category: " + jsonData.getCategory() + "\n";
-        emailBody += "Description: " + jsonData.getDescription() + "\n";
-        
-        message.setText(emailBody);
-        emailSender.send(message);
-    } 
 
 
     @PostMapping("createData")
@@ -589,7 +556,47 @@ public class service {
     }
 
     
-    
+    @PostMapping("/approval-hierarchy")
+    public ResponseEntity<String> createOrUpdateApprovalHierarchy(@RequestBody approval_hierarchy hierarchy1) {
+    	try {
+    		Long caseId = hierarchy1.getHierarchy().getCase_id();
+    		String url = hierarchy1.getEE_URL();
+    		boolean status = hierarchy1.isEE_status();
+    		
+    		// Check if the case_id exists in the hierarchy table
+    		hierarchy existingHierarchy = hierarchyRepo.findByCaseId(caseId);
+    		if (existingHierarchy == null) {
+    			return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body("Hierarchy with case_id " + caseId + " does not exist");
+    		}
+    		System.out.println("it is here");
+    		// Check if the case_id exists in the approval_hierarchy table
+    		approval_hierarchy existingApprovalHierarchy = approvalHierarchyRepo.findByHierarchy_CaseId(caseId);
+    		System.out.println("it is here1");
+    		if (existingApprovalHierarchy == null) {
+    			System.out.println("it is null");
+    		}
+    		if (existingApprovalHierarchy != null) {
+    			// Update the existing entry
+    			updateExistingHierarchy(existingApprovalHierarchy, hierarchy1);
+    			approvalHierarchyRepo.save(existingApprovalHierarchy);
+    			return ResponseEntity.ok("Approval Hierarchy updated successfully");
+    		} else {
+    			// Set the hierarchy in the approval_hierarchy object
+    			hierarchy1.setHierarchy(existingHierarchy);
+    			
+    			// Insert the new entry
+    			approval_hierarchy savedApprovalHierarchy = approvalHierarchyRepo.save(hierarchy1);
+    			if (savedApprovalHierarchy != null) {
+    				return ResponseEntity.status(HttpStatus.SC_CREATED).body("Approval Hierarchy created successfully");
+    			} else {
+    				return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Failed to save Approval Hierarchy");
+    			}
+    		}
+    	} catch (Exception e) {
+    		return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
+//        	return ResponseEntity.status(500).body("internal server error ");
+    	}
+    }
 //    @PostMapping("/approval-hierarchy")
 //    public ResponseEntity<String> createOrUpdateApprovalHierarchy(@RequestBody approval_hierarchy hierarchy1) {
 //        try {
@@ -634,48 +641,9 @@ public class service {
 //        }
 //    }
 
-    @PostMapping("/approval-hierarchy")
-    public ResponseEntity<String> createOrUpdateApprovalHierarchy(@RequestBody approval_hierarchy hierarchy1) {
-        try {
-            Long caseId = hierarchy1.getHierarchy().getCase_id();
-            String url = hierarchy1.getEE_URL();
-            boolean status = hierarchy1.isEE_status();
 
-            // Check if the case_id exists in the hierarchy table
-            hierarchy existingHierarchy = hierarchyRepo.findByCaseId(caseId);
-            if (existingHierarchy == null) {
-                return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body("Hierarchy with case_id " + caseId + " does not exist");
-            }
-            System.out.println("it is here");
-            // Check if the case_id exists in the approval_hierarchy table
-            approval_hierarchy existingApprovalHierarchy = approvalHierarchyRepo.findByHierarchy_CaseId(caseId);
-            System.out.println("it is here1");
-            if (existingApprovalHierarchy == null) {
-            	System.out.println("it is null");
-            }
-            if (existingApprovalHierarchy != null) {
-                // Update the existing entry
-            	updateExistingHierarchy(existingApprovalHierarchy, hierarchy1);
-                approvalHierarchyRepo.save(existingApprovalHierarchy);
-                return ResponseEntity.ok("Approval Hierarchy updated successfully");
-            } else {
-                // Set the hierarchy in the approval_hierarchy object
-                hierarchy1.setHierarchy(existingHierarchy);
-
-                // Insert the new entry
-                approval_hierarchy savedApprovalHierarchy = approvalHierarchyRepo.save(hierarchy1);
-                if (savedApprovalHierarchy != null) {
-                    return ResponseEntity.status(HttpStatus.SC_CREATED).body("Approval Hierarchy created successfully");
-                } else {
-                    return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Failed to save Approval Hierarchy");
-                }
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-//        	return ResponseEntity.status(500).body("internal server error ");
-        }
-    }
-
+    
+ //================================methods====================================================================================s
     private void updateExistingHierarchy(approval_hierarchy existingHierarchy, approval_hierarchy newHierarchy) {
         // Update EE_URL and EE_status if provided
         if (newHierarchy.getEE_URL() != null || newHierarchy.isEE_status()) {
@@ -708,6 +676,37 @@ public class service {
             existingHierarchy.setMD_status(newHierarchy.isMD_status());
         }
     }
+    // Method to check if circle code exists
+    private boolean circleCodeExists(String circle_code) {
+    	return dataRepo.existsBycircle_code(circle_code);
+    }
+    
+    // Method to check if division code exists
+    private boolean divisionCodeExists(String division_code) {
+    	return dataRepo.existsByDivision_code(division_code);
+    }
+    private double extractNumericValue(String str) {
+    	String numericPart = str.replaceAll("[^\\d.]", "");
+    	return Double.parseDouble(numericPart);
+    }
+    // Method to send email
+    private void sendEmail(String to, String subject,String text,  hierarchy jsonData) {
+    	SimpleMailMessage message = new SimpleMailMessage();
+    	message.setTo(to);
+    	message.setSubject(subject);
+    	
+    	// Include specific user data in the email body
+    	String emailBody =text+  "\n";
+    	emailBody += "Case ID: " + jsonData.getCase_id() + "\n";
+    	emailBody += "Name of Applicant: " + jsonData.getName_of_applicant() + "\n";
+    	emailBody += "Sanctioned Load: " + jsonData.getSanctioned_load() + "\n";
+    	emailBody += "Category: " + jsonData.getCategory() + "\n";
+    	emailBody += "Description: " + jsonData.getDescription() + "\n";
+    	
+    	message.setText(emailBody);
+    	emailSender.send(message);
+    } 
+    
 }
 
     

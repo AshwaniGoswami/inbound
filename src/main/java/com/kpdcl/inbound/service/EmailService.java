@@ -1,24 +1,48 @@
  package com.kpdcl.inbound.service;
-////
-////
-////
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Properties;
-////
-////
+
+//@Service	
+//public class EmailService {
+//	private final JavaMailSender emailSender;
+//	 
+//
+//    @Autowired
+//    public EmailService(JavaMailSender emailSender) {
+//        this.emailSender = emailSender;
+//    }
+//}
+
 @Service	
 public class EmailService {
-	 private JavaMailSender emailSender;
+	
+	 private final JavaMailSender emailSender;
 	 
 	 @Autowired
-	 public void YourService(JavaMailSender emailSender) {
-		 this.emailSender = emailSender;
-	 }
+	    public EmailService(JavaMailSender emailSender) {
+	        this.emailSender = emailSender;
+	    }
+	 
+	 // Method to send bulk emails
+	    public void sendBulkEmail(List<String> toList, String subject, String text) {
+	        for (String to : toList) {
+	            sendEmail(to, subject, text);
+	        }
+	    }
+
+	    // Method to send email to a single recipient
+	    public void sendEmail(String to, String subject, String text) {
+	        SimpleMailMessage message = new SimpleMailMessage();
+	        message.setTo(to);
+	        message.setSubject(subject);
+	        message.setText(text);
+	        emailSender.send(message);
+	    }
 }
 ////	 
 ////
