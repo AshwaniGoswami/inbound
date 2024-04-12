@@ -33,7 +33,6 @@
 //    }
 //}
 
-
 //package com.kpdcl.inbound.controller;
 //
 //import java.util.Map;
@@ -58,11 +57,7 @@
 //	    }
 //}
 
-
 package com.kpdcl.inbound.controller;
-
-
-
 
 import java.util.HashMap;
 import java.util.List;
@@ -95,10 +90,8 @@ import com.kpdcl.inbound.repository.approvalRepository;
 import com.kpdcl.inbound.repository.dataRepository;
 import com.kpdcl.inbound.repository.hierarchyRepository;
 
+import io.swagger.annotations.Api;
 
-
-
-    
 //    @Autowired
 //    public service(YourService yourService) {
 //        this.yourService = yourService;
@@ -109,7 +102,6 @@ import com.kpdcl.inbound.repository.hierarchyRepository;
 //        this.emailService = emailService;
 //    }
 
-    
 //    public service(EmailService emailService) {
 ////        this.createtoken = createtoken;
 //        this.emailService = emailService;
@@ -208,8 +200,7 @@ import com.kpdcl.inbound.repository.hierarchyRepository;
 //        }
 //    }-------------------------------------------------------------------------------------------------------------------------------
 
-    
-    // Implement this method to parse data from the x file and create 'hierarchy' entity
+// Implement this method to parse data from the x file and create 'hierarchy' entity
 //    private hierarchy parseHierarchy(Map<String, Object> jsonData) {
 //        hierarchy hierarchy = new hierarchy();
 //        hierarchy.setName_of_applicant((String) jsonData.get("Name_of_applicant"));
@@ -222,9 +213,7 @@ import com.kpdcl.inbound.repository.hierarchyRepository;
 //        return hierarchy;
 //    }
 
-    
-    
-    // Define a ResponseObject class to include token and data
+// Define a ResponseObject class to include token and data
 //    private static class ResponseObject {
 //        private String token;
 //        private hierarchy data;
@@ -246,8 +235,7 @@ import com.kpdcl.inbound.repository.hierarchyRepository;
 //            this.data = savedHierarchy;
 //        }
 //    }
-    
-    
+
 //    @PostMapping("/api/hierarchy")
 //    public ResponseEntity<?> createData(@RequestBody hierarchy jsonData) {
 //        try {
@@ -293,12 +281,7 @@ import com.kpdcl.inbound.repository.hierarchyRepository;
 //            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
 //        }
 //    }
-    
- 
-    
-    
-    
-    
+
 //    @PostMapping("/api/hierarchy")
 //    public ResponseEntity<?> createData(@RequestBody hierarchy jsonData) {
 //        try {
@@ -397,30 +380,30 @@ import com.kpdcl.inbound.repository.hierarchyRepository;
 //            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Internal Server Error111");
 //        }
 //    }
-    
-    
+
 @RestController
+@Api(tags = "Inbound Service API")
 public class service {
-	//private final createToken createtoken;
-	// private final EmailService emailService;
-	
-	@Autowired
-	private hierarchyRepository hierarchyRepo;
-	
-	@Autowired
-	private approvalHierarchyRepository approvalHierarchyRepo;
-	
-	@Autowired
-	private JavaMailSender emailSender;
-	
-//    @Autowired
-//    private divisionEmailRepository divisionEmailRepo;
-	@Autowired
-	private approvalRepository approvalRepo;
-	@Autowired
-	private dataRepository dataRepo;
-    
-	@PostMapping("/api/hierarchy")
+    // private final createToken createtoken;
+    // private final EmailService emailService;
+
+    @Autowired
+    private hierarchyRepository hierarchyRepo;
+
+    @Autowired
+    private approvalHierarchyRepository approvalHierarchyRepo;
+
+    @Autowired
+    private JavaMailSender emailSender;
+
+    // @Autowired
+    // private divisionEmailRepository divisionEmailRepo;
+    @Autowired
+    private approvalRepository approvalRepo;
+    @Autowired
+    private dataRepository dataRepo;
+
+    @PostMapping("/api/hierarchy")
     public ResponseEntity<?> createData(@RequestBody hierarchy jsonData) {
         try {
             // Extracting necessary information from jsonData
@@ -432,7 +415,7 @@ public class service {
             String applicant = jsonData.getName_of_applicant();
             String division = jsonData.getDivision();
             String office = jsonData.getOfficeCode();
-           
+
             // Extracting the first two digits and the next two digits from the office code
             String wingCode = office.substring(0, 2);
             String circleCode = office.substring(2, 4);
@@ -445,85 +428,86 @@ public class service {
             System.out.println(circleCodeExists);
             System.out.println(divisionCodeExists);
             if (!circleCodeExists) {
-                // Return a bad request response if either circle code or division code is invalid
+                // Return a bad request response if either circle code or division code is
+                // invalid
                 return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body("Invalid circle code");
             }
             if (!divisionCodeExists) {
-                // Return a bad request response if either circle code or division code is invalid
+                // Return a bad request response if either circle code or division code is
+                // invalid
                 return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body("Invalid division code.");
             }
 
             String stdEmail = "";
             String divisionEmail = "";
-            String circleEmail="";
-            String wingEmail="";
+            String circleEmail = "";
+            String wingEmail = "";
             System.out.println("i an here");
 
             if (sanctionedLoad >= 25.0 && sanctionedLoad <= 50.0) {
                 // Fetch STD email
-            	   stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
-                   divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
+                stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
+                divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
 
-//                stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
-//                System.out.println(stdEmail);
+                // stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
+                // System.out.println(stdEmail);
                 // Fetch division email
-            	System.out.println("i am here");
-//                divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
-                sendEmail(stdEmail, "Approval Request", "Approval request for case ID: " , jsonData);
-                
-//                                // Send email to EE (mandatory)
-                sendEmail(divisionEmail, "Approval Request", "Approval request for case ID: " , jsonData);
-                                //hierarchy savedHierarchy = hierarchyRepo.save(jsonData);
-//                System.out.println("i am here1");
+                System.out.println("i am here");
+                // divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
+                sendEmail(stdEmail, "Approval Request", "Approval request for case ID: ", jsonData);
+
+                // // Send email to EE (mandatory)
+                sendEmail(divisionEmail, "Approval Request", "Approval request for case ID: ", jsonData);
+                // hierarchy savedHierarchy = hierarchyRepo.save(jsonData);
+                // System.out.println("i am here1");
                 System.out.println(divisionEmail);
-                
+
             }
-            
+
             else if (sanctionedLoad > 50.0 && sanctionedLoad <= 100.0) {
                 // Fetch STD email
-//            	System.out.println("i am here");
-            	 stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
-                 divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
-                 circleEmail=dataRepo.findcircleEmailBycircleCode(circleCode);
-//            	stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
-//            	divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
-//                circleEmail=dataRepo.findcircleEmailByCircleCode(circleCode);
-//                System.out.println(stdEmail);
-//                System.out.println(divisionEmail);
-//                System.out.println(circleEmail);
+                // System.out.println("i am here");
+                stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
+                divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
+                circleEmail = dataRepo.findcircleEmailBycircleCode(circleCode);
+                // stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
+                // divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
+                // circleEmail=dataRepo.findcircleEmailByCircleCode(circleCode);
+                // System.out.println(stdEmail);
+                // System.out.println(divisionEmail);
+                // System.out.println(circleEmail);
                 // Fetch division email
-//            	System.out.println("i am here");
-                sendEmail(divisionEmail, "Approval Request", "Approval request for case ID: " , jsonData);
-                sendEmail(stdEmail, "Approval Request", "Approval request for case ID: " , jsonData);
-                sendEmail(circleEmail, "Approval Request", "Approval request for case ID: " , jsonData);
+                // System.out.println("i am here");
+                sendEmail(divisionEmail, "Approval Request", "Approval request for case ID: ", jsonData);
+                sendEmail(stdEmail, "Approval Request", "Approval request for case ID: ", jsonData);
+                sendEmail(circleEmail, "Approval Request", "Approval request for case ID: ", jsonData);
                 //
-//                                // Send email to EE (mandatory)
-                                //hierarchy savedHierarchy = hierarchyRepo.save(jsonData);
-//                System.out.println("i am here1");
-                //System.out.println(divisionEmail);
-            }
-            else if (sanctionedLoad > 100.0 && sanctionedLoad <= 500.0) {
+                // // Send email to EE (mandatory)
+                // hierarchy savedHierarchy = hierarchyRepo.save(jsonData);
+                // System.out.println("i am here1");
+                // System.out.println(divisionEmail);
+            } else if (sanctionedLoad > 100.0 && sanctionedLoad <= 500.0) {
                 // Fetch STD email
                 stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
                 divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
-                //circleEmail=dataRepo.findcircleEmailBycircleCode(circleCode);
-                wingEmail=dataRepo.findwingEmailBywingCode(wingCode);
-//            	divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
-//                stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
-//                circleEmail=dataRepo.findcircleEmailByCircleCode(circleCode);
-//                wingEmail=dataRepo.findwingEmailBywingCode(wingCode);
-//                System.out.println(stdEmail);
+                // circleEmail=dataRepo.findcircleEmailBycircleCode(circleCode);
+                wingEmail = dataRepo.findwingEmailBywingCode(wingCode);
+                // divisionEmail = dataRepo.findDivisionEmailByDivisionCode(divisionCode);
+                // stdEmail = dataRepo.findSTDEmailByDivisionCode(divisionCode);
+                // circleEmail=dataRepo.findcircleEmailByCircleCode(circleCode);
+                // wingEmail=dataRepo.findwingEmailBywingCode(wingCode);
+                // System.out.println(stdEmail);
                 // Fetch division email
-//            	System.out.println("i am here");
-                sendEmail(divisionEmail, "Approval Request", "Approval request for case ID: " , jsonData);
-                sendEmail(stdEmail, "Approval Request", "Approval request for case ID: " , jsonData);
-                sendEmail(circleEmail, "Approval Request", "Approval request for case ID: " , jsonData);
-                sendEmail(wingEmail, "Approval Request", "Approval request for case ID: " , jsonData);
+                // System.out.println("i am here");
+                sendEmail(divisionEmail, "Approval Request", "Approval request for case ID: ", jsonData);
+                sendEmail(stdEmail, "Approval Request", "Approval request for case ID: ", jsonData);
+                sendEmail(circleEmail, "Approval Request", "Approval request for case ID: ", jsonData);
+                sendEmail(wingEmail, "Approval Request", "Approval request for case ID: ", jsonData);
                 //
-//                                // Send email to EE (mandatory)
-                                //hierarchy savedHierarchy = hierarchyRepo.save(jsonData);
-//                System.out.println("i am here1");
-                //System.out.println(divisionEmail);
+                // // Send email to EE (mandatory)
+                // hierarchy savedHierarchy = hierarchyRepo.save(jsonData);
+                // System.out.println("i am here1");
+                // System.out.println(divisionEmail);
             }
 
             // Formulate the response body
@@ -535,128 +519,135 @@ public class service {
             return ResponseEntity.status(HttpStatus.SC_CREATED).body(responseBody);
 
         } catch (NumberFormatException e) {
-            // If the sanctioned load cannot be parsed as a double, return a bad request response
-            return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body("Invalid sanctioned load. Must be a numeric value.");
+            // If the sanctioned load cannot be parsed as a double, return a bad request
+            // response
+            return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST)
+                    .body("Invalid sanctioned load. Must be a numeric value.");
         } catch (Exception e) {
             // If there is an error, return an appropriate HTTP status code
             return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Internal Server Error");
         }
     }
 
-	@GetMapping("/view_hierarchy")
-	public ResponseEntity<?> getAllData() {
-	    try {
-	        List<hierarchy> hierarchyList = hierarchyRepo.findAll();
-	        return ResponseEntity.ok().body(hierarchyList);
-	    } catch (Exception e) {
-	        // If there is an error, return an appropriate HTTP status code
-	        return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Internal Server Error");
-	    }
-	}
-
-
+    @GetMapping("/view_hierarchy")
+    public ResponseEntity<?> getAllData() {
+        try {
+            List<hierarchy> hierarchyList = hierarchyRepo.findAll();
+            return ResponseEntity.ok().body(hierarchyList);
+        } catch (Exception e) {
+            // If there is an error, return an appropriate HTTP status code
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Internal Server Error");
+        }
+    }
 
     @PostMapping("createData")
     public ResponseEntity<?> createApproval(@RequestBody Approval approval) {
-    	Approval savedHierarchy = approvalRepo.save(approval);
-    	return ResponseEntity.status(HttpStatus.SC_CREATED).body(savedHierarchy);
+        Approval savedHierarchy = approvalRepo.save(approval);
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(savedHierarchy);
     }
-    
+
     @PostMapping("data_hierarchy")
     public ResponseEntity<dataHierarchy> createDataHierarchy(@RequestBody dataHierarchy dataHierarchy) {
         dataHierarchy savedDataHierarchy = dataRepo.save(dataHierarchy);
         return ResponseEntity.status(HttpStatus.SC_CREATED).body(savedDataHierarchy);
     }
 
-    
     @PostMapping("/approval-hierarchy")
     public ResponseEntity<String> createOrUpdateApprovalHierarchy(@RequestBody approval_hierarchy hierarchy1) {
-    	try {
-    		Long caseId = hierarchy1.getHierarchy().getCase_id();
-    		String url = hierarchy1.getEE_URL();
-    		boolean status = hierarchy1.isEE_status();
-    		
-    		// Check if the case_id exists in the hierarchy table
-    		hierarchy existingHierarchy = hierarchyRepo.findByCaseId(caseId);
-    		if (existingHierarchy == null) {
-    			return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body("Hierarchy with case_id " + caseId + " does not exist");
-    		}
-    		System.out.println("it is here");
-    		// Check if the case_id exists in the approval_hierarchy table
-    		approval_hierarchy existingApprovalHierarchy = approvalHierarchyRepo.findByHierarchy_CaseId(caseId);
-    		System.out.println("it is here1");
-    		if (existingApprovalHierarchy == null) {
-    			System.out.println("it is null");
-    		}
-    		if (existingApprovalHierarchy != null) {
-    			// Update the existing entry
-    			updateExistingHierarchy(existingApprovalHierarchy, hierarchy1);
-    			approvalHierarchyRepo.save(existingApprovalHierarchy);
-    			return ResponseEntity.ok("Approval Hierarchy updated successfully");
-    		} else {
-    			// Set the hierarchy in the approval_hierarchy object
-    			hierarchy1.setHierarchy(existingHierarchy);
-    			
-    			// Insert the new entry
-    			approval_hierarchy savedApprovalHierarchy = approvalHierarchyRepo.save(hierarchy1);
-    			if (savedApprovalHierarchy != null) {
-    				return ResponseEntity.status(HttpStatus.SC_CREATED).body("Approval Hierarchy created successfully");
-    			} else {
-    				return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Failed to save Approval Hierarchy");
-    			}
-    		}
-    	} catch (Exception e) {
-    		return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-//        	return ResponseEntity.status(500).body("internal server error ");
-    	}
+        try {
+            Long caseId = hierarchy1.getHierarchy().getCase_id();
+            String url = hierarchy1.getEE_URL();
+            boolean status = hierarchy1.isEE_status();
+
+            // Check if the case_id exists in the hierarchy table
+            hierarchy existingHierarchy = hierarchyRepo.findByCaseId(caseId);
+            if (existingHierarchy == null) {
+                return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST)
+                        .body("Hierarchy with case_id " + caseId + " does not exist");
+            }
+            System.out.println("it is here");
+            // Check if the case_id exists in the approval_hierarchy table
+            approval_hierarchy existingApprovalHierarchy = approvalHierarchyRepo.findByHierarchy_CaseId(caseId);
+            System.out.println("it is here1");
+            if (existingApprovalHierarchy == null) {
+                System.out.println("it is null");
+            }
+            if (existingApprovalHierarchy != null) {
+                // Update the existing entry
+                updateExistingHierarchy(existingApprovalHierarchy, hierarchy1);
+                approvalHierarchyRepo.save(existingApprovalHierarchy);
+                return ResponseEntity.ok("Approval Hierarchy updated successfully");
+            } else {
+                // Set the hierarchy in the approval_hierarchy object
+                hierarchy1.setHierarchy(existingHierarchy);
+
+                // Insert the new entry
+                approval_hierarchy savedApprovalHierarchy = approvalHierarchyRepo.save(hierarchy1);
+                if (savedApprovalHierarchy != null) {
+                    return ResponseEntity.status(HttpStatus.SC_CREATED).body("Approval Hierarchy created successfully");
+                } else {
+                    return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR)
+                            .body("Failed to save Approval Hierarchy");
+                }
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
+            // return ResponseEntity.status(500).body("internal server error ");
+        }
     }
-//    @PostMapping("/approval-hierarchy")
-//    public ResponseEntity<String> createOrUpdateApprovalHierarchy(@RequestBody approval_hierarchy hierarchy1) {
-//        try {
-//            System.out.println("I am here");
-//            Long caseId = hierarchy1.getHierarchy().getCase_id();
-//            String url = hierarchy1.getEE_URL();
-//            boolean status = hierarchy1.isEE_status();
-//            System.out.println(caseId);
-//            System.out.println(url);
-//            System.out.println(status);
-//            hierarchy hierarchyObj = hierarchy1.getHierarchy();
-//            if (hierarchyObj == null || hierarchyObj.getCase_id() == null) {
-//                return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body("Hierarchy or case_id is null");
-//            }
-//
-//            // Check if the entity with the given case_id exists
-//            approval_hierarchy existingHierarchy = approvalHierarchyRepo.findByHierarchy_CaseId(hierarchyObj.getCase_id());
-//            
-//            if (existingHierarchy != null) {
-//                // Update the existing entity
-//                updateExistingHierarchy(existingHierarchy, hierarchy1);
-//                approvalHierarchyRepo.save(existingHierarchy);
-//                return ResponseEntity.ok("Approval Hierarchy updated successfully");
-//            } else {
-//                // Save the associated hierarchy entity first
-//                // Save hierarchy entity
-////                hierarchy savedHierarchy = hierarchyRepo.save(hierarchyObj);
-//                
-//                // Set the saved hierarchy entity back to the approval_hierarchy object
-////                hierarchy1.setHierarchy(savedHierarchy);
-//                
-//                // Insert the new entity
-//                approval_hierarchy savedApprovalHierarchy = approvalHierarchyRepo.save(hierarchy1);
-//                if (savedApprovalHierarchy != null) {
-//                    return ResponseEntity.status(HttpStatus.SC_CREATED).body("Approval Hierarchy created successfully");
-//                } else {
-//                    return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Failed to save Approval Hierarchy");
-//                }
-//            }
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-//        }
-//    }
+    // @PostMapping("/approval-hierarchy")
+    // public ResponseEntity<String> createOrUpdateApprovalHierarchy(@RequestBody
+    // approval_hierarchy hierarchy1) {
+    // try {
+    // System.out.println("I am here");
+    // Long caseId = hierarchy1.getHierarchy().getCase_id();
+    // String url = hierarchy1.getEE_URL();
+    // boolean status = hierarchy1.isEE_status();
+    // System.out.println(caseId);
+    // System.out.println(url);
+    // System.out.println(status);
+    // hierarchy hierarchyObj = hierarchy1.getHierarchy();
+    // if (hierarchyObj == null || hierarchyObj.getCase_id() == null) {
+    // return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body("Hierarchy or
+    // case_id is null");
+    // }
+    //
+    // // Check if the entity with the given case_id exists
+    // approval_hierarchy existingHierarchy =
+    // approvalHierarchyRepo.findByHierarchy_CaseId(hierarchyObj.getCase_id());
+    //
+    // if (existingHierarchy != null) {
+    // // Update the existing entity
+    // updateExistingHierarchy(existingHierarchy, hierarchy1);
+    // approvalHierarchyRepo.save(existingHierarchy);
+    // return ResponseEntity.ok("Approval Hierarchy updated successfully");
+    // } else {
+    // // Save the associated hierarchy entity first
+    // // Save hierarchy entity
+    //// hierarchy savedHierarchy = hierarchyRepo.save(hierarchyObj);
+    //
+    // // Set the saved hierarchy entity back to the approval_hierarchy object
+    //// hierarchy1.setHierarchy(savedHierarchy);
+    //
+    // // Insert the new entity
+    // approval_hierarchy savedApprovalHierarchy =
+    // approvalHierarchyRepo.save(hierarchy1);
+    // if (savedApprovalHierarchy != null) {
+    // return ResponseEntity.status(HttpStatus.SC_CREATED).body("Approval Hierarchy
+    // created successfully");
+    // } else {
+    // return
+    // ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Failed to
+    // save Approval Hierarchy");
+    // }
+    // }
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Error
+    // occurred: " + e.getMessage());
+    // }
+    // }
 
-
-    
- //================================methods====================================================================================s
+    // ================================methods====================================================================================s
     private void updateExistingHierarchy(approval_hierarchy existingHierarchy, approval_hierarchy newHierarchy) {
         // Update EE_URL and EE_status if provided
         if (newHierarchy.getEE_URL() != null || newHierarchy.isEE_status()) {
@@ -689,44 +680,38 @@ public class service {
             existingHierarchy.setMD_status(newHierarchy.isMD_status());
         }
     }
+
     // Method to check if circle code exists
     private boolean circleCodeExists(String circle_code) {
-    	return dataRepo.existsBycircle_code(circle_code);
+        return dataRepo.existsBycircle_code(circle_code);
     }
-    
+
     // Method to check if division code exists
     private boolean divisionCodeExists(String division_code) {
-    	return dataRepo.existsByDivision_code(division_code);
+        return dataRepo.existsByDivision_code(division_code);
     }
+
     private double extractNumericValue(String str) {
-    	String numericPart = str.replaceAll("[^\\d.]", "");
-    	return Double.parseDouble(numericPart);
+        String numericPart = str.replaceAll("[^\\d.]", "");
+        return Double.parseDouble(numericPart);
     }
+
     // Method to send email
-    private void sendEmail(String to, String subject,String text,  hierarchy jsonData) {
-    	SimpleMailMessage message = new SimpleMailMessage();
-    	message.setTo(to);
-    	message.setSubject(subject);
-    	
-    	// Include specific user data in the email body
-    	String emailBody =text+  "\n";
-    	emailBody += "Case ID: " + jsonData.getCase_id() + "\n";
-    	emailBody += "Name of Applicant: " + jsonData.getName_of_applicant() + "\n";
-    	emailBody += "Sanctioned Load: " + jsonData.getSanctioned_load() + "\n";
-    	emailBody += "Category: " + jsonData.getCategory() + "\n";
-    	emailBody += "Description: " + jsonData.getDescription() + "\n";
-    	
-    	message.setText(emailBody);
-    	emailSender.send(message);
-    } 
-    
+    private void sendEmail(String to, String subject, String text, hierarchy jsonData) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+
+        // Include specific user data in the email body
+        String emailBody = text + "\n";
+        emailBody += "Case ID: " + jsonData.getCase_id() + "\n";
+        emailBody += "Name of Applicant: " + jsonData.getName_of_applicant() + "\n";
+        emailBody += "Sanctioned Load: " + jsonData.getSanctioned_load() + "\n";
+        emailBody += "Category: " + jsonData.getCategory() + "\n";
+        emailBody += "Description: " + jsonData.getDescription() + "\n";
+
+        message.setText(emailBody);
+        emailSender.send(message);
+    }
+
 }
-
-    
-    
-	
-
-
-
-
-
