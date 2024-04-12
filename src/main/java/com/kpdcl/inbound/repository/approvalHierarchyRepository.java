@@ -13,14 +13,5 @@ public interface approvalHierarchyRepository extends JpaRepository<approval_hier
 	@Query("select ah from com.kpdcl.inbound.entity.approval_hierarchy ah WHERE ah.Hierarchy.case_id = :caseId")
 	approval_hierarchy findByHierarchy_CaseId(@Param("caseId") long caseId);
 	
-//	findByCaseId()`
 }
-
-//	approval_hierarchy findByHierarchy_CaseId(Long case_id);
-//	@Query("SELECT a FROM approval_hierarchy a WHERE a.hierarchy.caseId = :case_id")
-//	approval_hierarchy findByHierarchy_CaseId(Long case_id);
-
-//	@Query("SELECT a FROM approval_hierarchy a WHERE a.Hierarchy.case_id = :case_id")
-//	approval_hierarchy findByHierarchy_CaseId(Long case_id);
-//	
 

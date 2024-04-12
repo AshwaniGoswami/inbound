@@ -57,9 +57,6 @@ public class dataHierarchy {
     private String MD_email;
     @Getter @Setter
     private String JKPTCL_email;
-//    @Getter @Setter
-//    @ManyToOne
-//    @JoinColumn(name = "officeCode", referencedColumnName = "officeCode")
-//    private hierarchy Hierarchy;
+
     
 }

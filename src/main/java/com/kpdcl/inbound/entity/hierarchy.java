@@ -3,8 +3,11 @@ package com.kpdcl.inbound.entity;
 
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.*;
+
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +24,6 @@ public class hierarchy implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	//@Column(unique = true)
 	@Getter @Setter
 	@Column(name = "case_id")
 	    private Long case_id;
@@ -44,24 +46,16 @@ public class hierarchy implements Serializable{
 	    @Getter @Setter
 	    private String officeCode;
 	    
-}
-//	    @Getter @Setter
-//	    @ManyToOne
-//	    private dataHierarchy data_hierarchy;
+	    @Temporal(TemporalType.TIMESTAMP)
+	    @Column(name = "create_date", nullable = false, updatable = false)
+	    private Date createDate;
 
-//		public List<?> get(String string) {
-//			// TODO Auto-generated method stub
-//			return null;
-//		}
-//
-//		public boolean containsKey(String string) {
-//			// TODO Auto-generated method stub
-//			return false;
-//		}
-//
-//		public Entry<String, Object>[] entrySet() {
-//			// TODO Auto-generated method stub
-//			return null;
-//		}
+	    @PrePersist
+	    protected void onCreate() {
+	        createDate = new Date();
+	    }
+	    
+}
+
 	    
 

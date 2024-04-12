@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 @Configuration
 public class config {
+	
 	 @Bean
 	 JavaMailSender getJavaMailSender() {
 	    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -21,14 +22,11 @@ public class config {
 	    props.put("mail.transport.protocol", "smtp");
 	    props.put("mail.debug", "true");
 	    props.put("mail.smtp.auth", "true");
-	   // props.put("mail.smtp.ssl.enable", "true");
 	    props.put("mail.smtp.starttls.enable", "true"); // Ensure TLS is enabled
         props.put("mail.smtp.from", "bill@kpdcl.in"); // Set the "from" address
         props.put("mail.smtp.ssl.enable", "false");
-     //   props.put("mail.smtp.starttls.enable", "true");
 
-	 
-	    return mailSender;
+	return mailSender;
 	
 }
 }

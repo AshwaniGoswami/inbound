@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @Import(config.class) 
-@EntityScan("com.kpdcl.inbound.entity")
-@EnableJpaRepositories("com.kpdcl.inbound.repository")
 public class InboundApplication {
 
 	public static void main(String[] args) {

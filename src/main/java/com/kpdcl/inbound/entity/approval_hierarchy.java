@@ -26,7 +26,7 @@ public class approval_hierarchy implements Serializable{
     @Getter @Setter
     private String EE_URL;
     @Getter @Setter
-    @Column(nullable = false, columnDefinition = "NUMBER(1,0) default null")
+    @Column( columnDefinition = "NUMBER(1,0) default null")
     	private boolean EE_status;
     @Getter @Setter
     private String EE_Remark;
@@ -34,7 +34,7 @@ public class approval_hierarchy implements Serializable{
     @Getter @Setter
     private String STD_URL;
     @Getter @Setter
-    @Column(nullable = false, columnDefinition = "NUMBER(1,0) default null")
+    @Column( columnDefinition = "NUMBER(1,0) default null")
     	private boolean STD_status;
     @Getter @Setter
     private String STD_Remark;
@@ -42,7 +42,7 @@ public class approval_hierarchy implements Serializable{
     @Getter @Setter
     private String SE_URL;
     @Getter @Setter
-    @Column(nullable = false, columnDefinition = "NUMBER(1,0) default null")
+    @Column( columnDefinition = "NUMBER(1,0) default null")
     	private boolean SE_status;
     @Getter @Setter
     private String SE_Remark;
@@ -50,14 +50,14 @@ public class approval_hierarchy implements Serializable{
     @Getter @Setter
     private String CE_URL;
     @Getter @Setter
-    @Column(nullable = false, columnDefinition = "NUMBER(1,0) default null")
+    @Column( columnDefinition = "NUMBER(1,0) default null")
     	private boolean CE_status;
     @Getter @Setter
     private String CE_Remark;
     @Getter @Setter
     private String KPTCL_URL;
     @Getter @Setter
-    @Column(nullable = false, columnDefinition = "NUMBER(1,0) default null")
+    @Column( columnDefinition = "NUMBER(1,0) default null")
     	private boolean KPTCL_status;
     @Getter @Setter
     private String KPTCL_Remark;
@@ -65,7 +65,7 @@ public class approval_hierarchy implements Serializable{
     @Getter @Setter
     private String MD_URL;
     @Getter @Setter
-    @Column(nullable = false, columnDefinition = "NUMBER(1,0) default null")
+    @Column( columnDefinition = "NUMBER(1,0) default null")
     	private boolean MD_status;
     @Getter @Setter
     private String MD_Remark;
