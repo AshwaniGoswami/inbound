@@ -18,12 +18,13 @@ import com.kpdcl.inbound.entity.hierarchy;
 import com.kpdcl.inbound.repository.approvalHierarchyRepository;
 import com.kpdcl.inbound.repository.dataRepository;
 import com.kpdcl.inbound.repository.hierarchyRepository;
-
+import io.swagger.annotations.Api;
 
 
 
     
 @RestController
+@Api(tags = "Inbound Service API")
 public class service {
 	
 	@Autowired
@@ -146,7 +147,7 @@ public class service {
 
 
             hierarchyRepo.save(jsonData);
-            return ResponseEntity.status(HttpStatus.SC_CREATED).body("data send Successfully!!");
+            return ResponseEntity.status(HttpStatus.SC_CREATED).body("Successful");
 
         } catch (NumberFormatException e) {
             // If the sanctioned load cannot be parsed as a double, return a bad request response
