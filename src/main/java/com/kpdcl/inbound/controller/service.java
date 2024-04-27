@@ -2,12 +2,12 @@ package com.kpdcl.inbound.controller;
 
 import java.util.*;
 import org.apache.hc.core5.http.HttpStatus;
-import org.hibernate.exception.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Async;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,13 +18,13 @@ import com.kpdcl.inbound.entity.hierarchy;
 import com.kpdcl.inbound.repository.approvalHierarchyRepository;
 import com.kpdcl.inbound.repository.dataRepository;
 import com.kpdcl.inbound.repository.hierarchyRepository;
-import io.swagger.annotations.Api;
+
 
 
 
     
 @RestController
-@Api(tags = "Inbound Service API")
+//@Api(tags = "Inbound Service API")
 public class service {
 	
 	@Autowired
