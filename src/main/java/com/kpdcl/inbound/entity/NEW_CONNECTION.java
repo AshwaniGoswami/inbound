@@ -1,5 +1,7 @@
 package com.kpdcl.inbound.entity;
 
+import java.util.UUID;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +18,7 @@ public class NEW_CONNECTION {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id; 
 	@Getter @Setter
-	private String user_id;
+	private UUID user_id;
 	@Getter @Setter
 	private Long case_id;
 	@Getter @Setter

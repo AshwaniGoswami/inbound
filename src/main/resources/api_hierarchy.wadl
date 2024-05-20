@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<application xmlns="http://wadl.dev.java.net/2009/02">
+    <grammars>
+        <include href="schema.xsd"/>
+    </grammars>
+    <resources base="http://example.com/">
+        <resource path="/api/hierarchy">
+            <method name="POST">
+                <request>
+                    <representation mediaType="application/json">
+                        <param name="case_id" style="plain" type="xs:long" required="true"/>
+                        <param name="Name_of_applicant" style="plain" type="xs:string" required="true"/>
+                        <param name="sanctioned_load" style="plain" type="xs:string" required="true"/>
+                        <param name="Category" style="plain" type="xs:string" required="true"/>
+                        <param name="description" style="plain" type="xs:string" required="true"/>
+                        <param name="Division" style="plain" type="xs:string" required="true"/>
+                        <param name="officeCode" style="plain" type="xs:string" required="true"/>
+                    </representation>
+                </request>
+                <response>
+                    <representation mediaType="application/json" status="201">
+                        <param name="id" style="plain" type="xs:long"/>
+                        <param name="case_id" style="plain" type="xs:long"/>
+                        <param name="Name_of_applicant" style="plain" type="xs:string"/>
+                        <param name="sanctioned_load" style="plain" type="xs:string"/>
+                        <param name="Category" style="plain" type="xs:string"/>
+                        <param name="description" style="plain" type="xs:string"/>
+                        <param name="Division" style="plain" type="xs:string"/>
+                        <param name="officeCode" style="plain" type="xs:string"/>
+                        <param name="createDate" style="plain" type="xs:string"/>
+                    </representation>
+                   
+                    <representation mediaType="application/json" status="400">
+                        <param name="error" style="plain" type="xs:string"/>
+                    </representation>
+                   
+                    <representation mediaType="application/json" status="500">
+                        <param name="error" style="plain" type="xs:string"/>
+                    </representation>
+                </response>
+            </method>
+        </resource>
+    </resources>
+</application>

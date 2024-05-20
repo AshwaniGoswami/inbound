@@ -2,12 +2,12 @@ package com.kpdcl.inbound.controller;
 
 import java.util.*;
 import org.apache.hc.core5.http.HttpStatus;
-
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +24,6 @@ import com.kpdcl.inbound.repository.hierarchyRepository;
 
     
 @RestController
-//@Api(tags = "Inbound Service API")
 public class service {
 	
 	@Autowired
@@ -158,16 +157,42 @@ public class service {
         }
     }
 
+//	@GetMapping("/view_hierarchy")
+//	public ResponseEntity<?> getAllData() {
+//	    try {
+//	        List<hierarchy> hierarchyList = hierarchyRepo.findAll();
+//	        return ResponseEntity.ok().body(hierarchyList);
+//	    } catch (Exception e) {
+//	        // If there is an error, return an appropriate HTTP status code
+//	        return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Internal Server Error");
+//	    }
+//	}
+	
 	@GetMapping("/view_hierarchy")
 	public ResponseEntity<?> getAllData() {
 	    try {
 	        List<hierarchy> hierarchyList = hierarchyRepo.findAll();
-	        return ResponseEntity.ok().body(hierarchyList);
+
+	        // Create a list to hold the data to be returned
+	        List<Map<String, Object>> responseData = new ArrayList<>();
+
+	        // Iterate through each hierarchy object and extract the necessary data
+	        for (hierarchy hierarchy : hierarchyList) {
+	            Map<String, Object> hierarchyData = new HashMap<>();
+	            hierarchyData.put("id", hierarchy.getCase_id());
+//	            hierarchyData.put("name", hierarchy.getName());
+	            hierarchyData.put("createDate", hierarchy.getCreateDate()); // Assuming getCreateDate() returns the createDate
+
+	            responseData.add(hierarchyData);
+	        }
+
+	        return ResponseEntity.ok().body(responseData);
 	    } catch (Exception e) {
 	        // If there is an error, return an appropriate HTTP status code
 	        return ResponseEntity.status(HttpStatus.SC_INTERNAL_SERVER_ERROR).body("Internal Server Error");
 	    }
 	}
+
 
 
         @PostMapping("data_hierarchy")

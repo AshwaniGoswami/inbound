@@ -54,6 +54,13 @@ public class hierarchy implements Serializable{
 	    protected void onCreate() {
 	        createDate = new Date();
 	    }
+
+		public Object getCreateDate() {
+			// TODO Auto-generated method stub
+			return createDate;
+		}
+
+
 	    
 }
 
