@@ -13,5 +13,12 @@ public class wadlController {
         Resource resource = new ClassPathResource("api_hierarchy.wadl");
         return ResponseEntity.ok(resource);
     }
+    
+    
+    @GetMapping(value = "/connections/application.wadl", produces = "application/xml")
+    public ResponseEntity<Resource> getWadl1() {
+        Resource resource = new ClassPathResource("newConnectionPayment.wadl");
+        return ResponseEntity.ok(resource);
+    }
 }
 

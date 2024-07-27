@@ -1,12 +1,17 @@
 package com.kpdcl.inbound.entity;
 
+import java.util.Date;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +36,22 @@ public class NEW_CONNECTION {
 	    
 	@Getter @Setter
     private Long msa_amount;
+	
+	@Getter @Setter
+	private String applicantEmailId;
+	
+	 @Temporal(TemporalType.TIMESTAMP)
+	    @Column(name = "create_date", updatable = false)
+	    private Date createDate;
+
+	    @PrePersist
+	    protected void onCreate() {
+	        createDate = new Date();
+	    }
+
+	    public Date getCreateDate() {
+	        return createDate;
+	    }
 	
 
 }

@@ -2,7 +2,7 @@ package com.kpdcl.inbound.entity;
 
 
 
-import java.util.UUID;
+//import java.util.UUID;
 
 import javax.persistence.*;
 
@@ -16,9 +16,9 @@ import lombok.Setter;
 @Table(name = "data_hierarchy",uniqueConstraints = {@UniqueConstraint(columnNames = {"Division_code", "STD_code"})})
 public class dataHierarchy {
 	@Id
-	@GeneratedValue(generator = "UUID") 
-	private UUID user_id;
-    
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+     
     @Getter @Setter
     private String Wing_name;
     @Getter @Setter
@@ -57,6 +57,9 @@ public class dataHierarchy {
     private String MD_email;
     @Getter @Setter
     private String JKPTCL_email;
+    
+    @Getter @Setter
+    private String office_code;
 
     
 }

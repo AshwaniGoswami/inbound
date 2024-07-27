@@ -1,6 +1,9 @@
 package com.kpdcl.inbound.service;
 
+//import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+
+//import com.kpdcl.inbound.entity.hierarchy;
 
 @Service
 public class SMSService {
@@ -12,4 +15,6 @@ public class SMSService {
         System.out.println("Message: " + message);
         // Implement your SMS sending logic here
     }
+    
+   
 }

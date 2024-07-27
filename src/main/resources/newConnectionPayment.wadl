@@ -1,29 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <application xmlns="http://wadl.dev.java.net/2009/02">
     <grammars>
-        <include href="schema.xsd"/>
+        <include href="schema1.xsd"/>
     </grammars>
     <resources base="http://example.com/">
-        <resource path="/api/hierarchy">
+        <resource path="/connections">
             <method name="POST">
                 <request>
                     <representation mediaType="application/json">
                         <param name="case_id" style="plain" type="xs:long" required="true"/>
-                        <param name="user1" style="plain" type="xs:long" required="true"/>
-                        <param name="sanctionedLoad" style="plain" type="xs:string" required="true"/>
-                        <param name="category" style="plain" type="xs:string" required="true"/>
-                        <param name="subDivision" style="plain" type="xs:string" required="true"/>
+                        <param name="dsa_amount" style="plain" type="xs:long" required="true"/>
+                        <param name="msa_amount" style="plain" type="xs:long" required="true"/>
+                   
        
                     </representation>
                 </request>
                 <response>
                     <representation mediaType="application/json" status="201">
-                        <param name="id" style="plain" type="xs:long"/>
-                        <param name="case_id" style="plain" type="xs:long"/>                    
-                        <param name="sanctionedLoad" style="plain" type="xs:string"/>
-                        <param name="category" style="plain" type="xs:string"/>      
-                        <param name="subDivision" style="plain" type="xs:string"/>
-                        <param name="createDate" style="plain" type="xs:string"/>
+                        <param name="successful" style="plain" type="xs:string"/>
                     </representation>
                    
                     <representation mediaType="application/json" status="400">

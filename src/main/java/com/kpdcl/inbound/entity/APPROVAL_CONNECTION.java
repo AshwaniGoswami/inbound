@@ -1,5 +1,6 @@
 package com.kpdcl.inbound.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +13,7 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@Table(name = "approvalConnection")
+@Table(name = "paymentUpdate")
 public class APPROVAL_CONNECTION {
     
     @Id
@@ -36,5 +37,28 @@ public class APPROVAL_CONNECTION {
     
     @Getter @Setter
     private Long msa_amount;
+    
+    @Getter @Setter
+    private Long dsa_amount_id;
+    
+    @Getter @Setter
+    private Long msa_amount_id;
+    
+    @Getter @Setter
+    private String mode;
+    
+    @Getter @Setter
+    private String receipt_url;
+    
+    @Column(name = "uploadDate", nullable = true)
+    private Date uploadDate;
+    
+	public Date getUploadDate() {
+		return uploadDate;
+	}
+
+	public void setUploadDate(Date date) {
+		this.uploadDate = date;
+	}
 }
 

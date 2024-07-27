@@ -1,6 +1,8 @@
 package com.kpdcl.inbound.repository;
 
-import java.util.UUID;
+import java.util.Optional;
+
+//import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kpdcl.inbound.entity.dataHierarchy;
 
 @Repository
-public interface dataRepository extends JpaRepository<dataHierarchy, UUID> {
+public interface dataRepository extends JpaRepository<dataHierarchy, Long> {
 
     @Query("SELECT CASE WHEN COUNT(d) > 0 THEN true ELSE false END FROM dataHierarchy d WHERE d.Division_code = :divisionCode")
     boolean existsByDivision_code(String divisionCode);
@@ -31,6 +33,9 @@ public interface dataRepository extends JpaRepository<dataHierarchy, UUID> {
 	String findmdEmailBywingCode(String divisionCode);
     @Query("SELECT d.JKPTCL_email FROM dataHierarchy d WHERE d.Division_code = :divisionCode")
 	String findjkptclEmailBywingCode(String divisionCode);
+
+
+
 
 
 	
