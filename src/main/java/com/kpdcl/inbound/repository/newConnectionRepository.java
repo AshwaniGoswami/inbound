@@ -35,6 +35,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.kpdcl.inbound.entity.APPROVAL_CONNECTION;
 import com.kpdcl.inbound.entity.NEW_CONNECTION;
 import com.kpdcl.inbound.entity.hierarchy;
 
@@ -52,5 +54,8 @@ public interface newConnectionRepository extends JpaRepository<NEW_CONNECTION, L
 
     @Query(value = "SELECT * FROM HIERARCHY WHERE CASE_ID = :caseId", nativeQuery = true)
     NEW_CONNECTION findByExistingCaseId(@Param("caseId") Long caseId);
+    
+    @Query(value="SELECT * FROM NEW_CONNECTION WHERE CASE_ID = :caseId", nativeQuery=true)
+    NEW_CONNECTION findByCaseId1(Long caseId);
 }
 

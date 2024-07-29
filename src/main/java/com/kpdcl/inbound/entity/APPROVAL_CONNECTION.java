@@ -45,7 +45,7 @@ public class APPROVAL_CONNECTION {
     private Long msa_amount_id;
     
     @Getter @Setter
-    private String mode;
+    private String status;
     
     @Getter @Setter
     private String receipt_url;

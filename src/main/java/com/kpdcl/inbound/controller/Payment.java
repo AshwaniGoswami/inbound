@@ -2,14 +2,17 @@ package com.kpdcl.inbound.controller;
 
 
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.apache.hc.core5.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kpdcl.inbound.entity.APPROVAL_CONNECTION;
@@ -215,14 +218,48 @@ public class Payment {
 	        return ResponseEntity.status(HttpStatus.SC_CREATED).body("Successful");
 	    }
 	  
-	   @PostMapping("/approval-connections")
+	   @PostMapping("/payment_status_update")
 	    public ResponseEntity<String> createApprovalConnection(@RequestBody APPROVAL_CONNECTION approvalConnection) {
 	        // Save the approval connection details to the database
+		   Long caseId = approvalConnection.getCase_id();
+		   NEW_CONNECTION caseid=connectionRepo.findByCaseId1(caseId);
+		   
+		   if(caseid==null) {
+			   return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body("Case ID not found");
+		   }
+		   APPROVAL_CONNECTION existingCaseID=approvalConnectionRepository.findByCaseId(caseId);
+		   
+		   if(existingCaseID!=null) {
+			   return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body("Case ID already exist");
+		   }
+		   
+		   String receipt_url=approvalConnection.getReceipt_url();
+		   if(receipt_url != null) {
+			   approvalConnection.setStatus("offline");
+		   }
+		   long msa_amount=caseid.getMsa_amount();
+		   long dsa_amount=caseid.getDsa_amount();
+		   approvalConnection.setDsa_amount(dsa_amount);
+		   approvalConnection.setMsa_amount(msa_amount);
+		   approvalConnection.setUploadDate(new Date());
 	        approvalConnectionRepository.save(approvalConnection);
 
 	        // Respond with success message
 	        return ResponseEntity.status(HttpStatus.SC_CREATED).body("Approval Connection created successfully");
 	    }
+	   
+//	   @GetMapping("/payment")
+//	   public ResponseEntity<String> getPaymentData(@RequestParam Long TotalAmount, @RequestParam Long caseId){
+//		  
+//
+//	        hierarchy CaseId = connectionRepo.findByCaseId(caseId);
+//	        if(CaseId==null) {
+//	        	return ResponseEntity.status(HttpStatus.SC_BAD_REQUEST).body("Case ID not found");
+//	        }
+//	        
+//	        
+//	        
+//	   }
 	   
 	   
 }

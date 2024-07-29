@@ -180,7 +180,7 @@ List<hierarchy> findBySTDCodeAndSanctionedLoadGreaterThanEqual(@Param("stdCode")
                "INNER JOIN DATA_HIERARCHY dh ON sd.DIVISION = dh.DIVISION_NAME " +
                "WHERE sd.SUB_DIVISION = :subDivision " +
                "AND dh.WING_CODE = :wingCode " +
-               "AND TO_NUMBER(REGEXP_SUBSTR(h.SANCTIONED_LOAD, '^[0-9]+')) >= :sanctionedLoad",
+               "AND TO_NUMBER(REGEXP_SUBSTR(h.SANCTIONED_LOAD, '^[0-9]+')) > :sanctionedLoad",
        nativeQuery = true)
 List<hierarchy> findByWingCodeAndSanctionedLoadGreaterThanEqual(@Param("wingCode") String wingCode,
                                                                 @Param("subDivision") String subDivision,
@@ -191,7 +191,7 @@ List<hierarchy> findByWingCodeAndSanctionedLoadGreaterThanEqual(@Param("wingCode
                "INNER JOIN DATA_HIERARCHY dh ON sd.DIVISION = dh.DIVISION_NAME " +
                "WHERE sd.SUB_DIVISION = :subDivision " +
                "AND dh.CIRCLE_CODE = :circleCode " +
-               "AND TO_NUMBER(REGEXP_SUBSTR(h.SANCTIONED_LOAD, '^[0-9]+')) >= :sanctionedLoad",
+               "AND TO_NUMBER(REGEXP_SUBSTR(h.SANCTIONED_LOAD, '^[0-9]+')) > :sanctionedLoad",
        nativeQuery = true)
 List<hierarchy> findByCircleCodeAndSanctionedLoadGreaterThanEqual(@Param("circleCode") String circleCode,
                                                                   @Param("subDivision") String subDivision,
@@ -201,7 +201,7 @@ List<hierarchy> findByCircleCodeAndSanctionedLoadGreaterThanEqual(@Param("circle
                "INNER JOIN SUB_DIVISION sd ON h.SUB_DIVISION = sd.SUB_DIVISION " +
                "INNER JOIN DATA_HIERARCHY dh ON sd.DIVISION = dh.DIVISION_NAME " +
                "WHERE sd.SUB_DIVISION = :subDivision " +
-               "AND TO_NUMBER(REGEXP_SUBSTR(h.SANCTIONED_LOAD, '^[0-9]+')) >= :sanctionedLoad",
+               "AND TO_NUMBER(REGEXP_SUBSTR(h.SANCTIONED_LOAD, '^[0-9]+')) > :sanctionedLoad",
        nativeQuery = true)
 List<hierarchy> findByMDAndKPTCLANDSanctionedLoadGreaterThanEqual(@Param("subDivision") String subDivision,
                                                                   @Param("sanctionedLoad") int sanctionedLoad);

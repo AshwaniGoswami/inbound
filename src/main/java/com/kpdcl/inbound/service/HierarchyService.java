@@ -322,9 +322,9 @@ public class HierarchyService {
     private hierarchyRepository hierarchyRepository;
 
     public Map<String, Object> getHierarchyData(String columnName, String code, String subDivision, String sanctionedLoadStr) {
-        int sanctionedLoad;
+        double sanctionedLoad;
         try {
-            sanctionedLoad = Integer.parseInt(sanctionedLoadStr.trim());
+            sanctionedLoad = Double.parseDouble(sanctionedLoadStr.trim());
         } catch (NumberFormatException e) {
             logger.severe("Invalid sanctioned load value: " + sanctionedLoadStr);
             throw new IllegalArgumentException("Sanctioned load must be a valid number");
@@ -341,7 +341,7 @@ public class HierarchyService {
         return result;
     }
 
-    private List<hierarchy> fetchHierarchy(String columnName, String code, String subDivision, int sanctionedLoad) {
+    private List<hierarchy> fetchHierarchy(String columnName, String code, String subDivision, double sanctionedLoad) {
         List<hierarchy> hierarchyData = new ArrayList<>();
 
         switch (columnName.toUpperCase()) {
